@@ -22,7 +22,6 @@
   .header{padding:22px 24px 12px;text-align:center;position:relative;border-bottom:1px solid var(--line)}
   .header::before,.header::after{content:'❧';color:var(--gold);opacity:.35;position:absolute;bottom:8px;font-size:13px}
   .header::before{left:24px}.header::after{right:24px;transform:scaleX(-1)}
-  .eyebrow{color:var(--gold);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:4px;font-family:'Playfair Display',serif}
   h1{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:2.1rem;font-weight:700;margin-bottom:2px;text-shadow:0 0 30px rgba(201,168,76,.3)}
   .dates{color:var(--cream-dim);font-style:italic;font-size:.84rem;letter-spacing:.05em;margin-bottom:5px}
   .hotel-badge{display:inline-block;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);font-size:.68rem;padding:3px 12px;border-radius:2px;letter-spacing:.1em;font-family:'Playfair Display',serif;font-style:italic}
@@ -39,7 +38,24 @@
   .map-page.active{display:block;animation:fadeIn .3s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-  .day-summary{text-align:center;margin-bottom:18px;padding:10px 0;border-bottom:1px solid var(--line)}
+  /* WEATHER CARD */
+  .weather-card{background:linear-gradient(135deg,rgba(20,40,80,.6),rgba(30,50,100,.4));border:1px solid rgba(100,160,255,.2);border-radius:6px;padding:12px 14px;margin-bottom:16px;position:relative;overflow:hidden}
+  .weather-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(100,160,255,.03));pointer-events:none}
+  .weather-loading{color:var(--cream-dim);font-style:italic;font-size:.8rem;text-align:center;padding:8px 0}
+  .weather-main{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .weather-icon{font-size:2.2rem;line-height:1}
+  .weather-temp{font-family:'Playfair Display',serif}
+  .weather-temp .temp-hi{color:var(--gold-light);font-size:1.5rem;font-weight:700}
+  .weather-temp .temp-lo{color:var(--cream-dim);font-size:.9rem;margin-left:4px}
+  .weather-desc{color:var(--cream);font-size:.85rem;font-style:italic;margin-top:1px}
+  .weather-details{display:flex;gap:12px;flex-wrap:wrap}
+  .weather-detail{font-size:.72rem;color:var(--cream-dim);display:flex;align-items:center;gap:4px}
+  .weather-detail span{color:#90C0FF}
+  .weather-note{margin-top:8px;padding:7px 10px;background:rgba(201,168,76,.08);border-left:2px solid var(--gold);font-size:.76rem;color:var(--cream);line-height:1.5;font-style:italic;border-radius:0 3px 3px 0}
+  .weather-note.rain{background:rgba(60,100,180,.15);border-left-color:#90C0FF;color:#C0D8FF}
+  .weather-note.great{background:rgba(26,74,46,.2);border-left-color:#7EC89A;color:#B0E8C0}
+
+  .day-summary{text-align:center;margin-bottom:16px;padding:10px 0;border-bottom:1px solid var(--line)}
   .day-summary .vibe{font-style:italic;color:var(--gold-light);font-size:.93rem;line-height:1.5}
 
   .transit{display:flex;align-items:center;gap:8px;padding:3px 0 3px 2px;margin:0 0 0 2px;position:relative;z-index:2}
@@ -134,31 +150,31 @@
   /* ===== MAP ===== */
   #map-container{position:relative;width:100%}
   #map{height:calc(100vh - 130px);width:100%;z-index:1}
+  .map-controls{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:500;display:flex;gap:5px;flex-wrap:wrap;justify-content:center;padding:0 10px;max-width:460px}
+  .map-filter-btn{background:rgba(255,255,255,0.92);border:1px solid rgba(0,0,0,.15);color:#333;font-family:'Playfair Display',serif;font-size:.65rem;padding:5px 10px;border-radius:20px;cursor:pointer;letter-spacing:.07em;backdrop-filter:blur(8px);transition:all .2s;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+  .map-filter-btn.active{background:#C9A84C;border-color:#C9A84C;color:#fff;font-weight:700}
+  .map-filter-btn.rt-active{background:#4080C0;border-color:#4080C0;color:#fff;font-weight:700}
+  .map-filter-btn.bar-active{background:#C04080;border-color:#C04080;color:#fff;font-weight:700}
 
-  .map-controls{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:500;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:0 10px;max-width:460px}
-  .map-filter-btn{background:rgba(20,9,10,0.88);border:1px solid var(--line);color:var(--cream-dim);font-family:'Playfair Display',serif;font-size:.65rem;padding:5px 10px;border-radius:20px;cursor:pointer;letter-spacing:.08em;backdrop-filter:blur(8px);transition:all .2s;white-space:nowrap}
-  .map-filter-btn.active{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold-light)}
-  .map-filter-btn.rt-active{background:rgba(20,50,100,.4);border-color:rgba(100,160,255,.5);color:#B8D8FF}
-  .map-filter-btn.bar-active{background:rgba(80,20,50,.4);border-color:rgba(180,80,120,.5);color:var(--bar-text)}
-
-  .gps-btn{position:absolute;bottom:20px;right:12px;z-index:500;background:rgba(20,9,10,.92);border:1px solid var(--gold);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;backdrop-filter:blur(8px);transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.5)}
+  .gps-btn{position:absolute;bottom:70px;right:12px;z-index:500;background:white;border:2px solid #ccc;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
   .gps-btn:active{transform:scale(.92)}
-  .gps-btn.tracking{border-color:#7EC89A;background:rgba(26,74,46,.5)}
+  .gps-btn.tracking{border-color:#4CAF50;background:#E8F5E9}
 
-  .gps-status{position:absolute;bottom:72px;right:12px;z-index:500;background:rgba(20,9,10,.9);border:1px solid var(--line);border-radius:6px;padding:5px 10px;font-family:'Playfair Display',serif;font-size:.68rem;color:var(--cream-dim);backdrop-filter:blur(8px);max-width:180px;text-align:right;display:none}
+  .gps-status{position:absolute;bottom:122px;right:12px;z-index:500;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:6px;padding:5px 10px;font-family:'Playfair Display',serif;font-size:.68rem;color:#333;max-width:180px;text-align:right;display:none;box-shadow:0 2px 8px rgba(0,0,0,.15)}
   .gps-status.visible{display:block}
 
-  /* Leaflet popup override */
-  .leaflet-popup-content-wrapper{background:rgba(20,9,10,.97)!important;border:1px solid var(--gold)!important;border-radius:4px!important;color:var(--cream)!important;box-shadow:0 4px 20px rgba(0,0,0,.6)!important}
-  .leaflet-popup-tip{background:rgba(20,9,10,.97)!important}
-  .leaflet-popup-content{margin:10px 14px!important;font-family:'Playfair Display',serif}
-  .popup-name{color:var(--gold-light);font-size:.95rem;font-weight:700;margin-bottom:3px}
-  .popup-cat{font-size:.65rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px;font-style:italic}
-  .popup-addr{font-size:.75rem;color:var(--cream-dim);font-style:italic}
-  .leaflet-control-zoom{display:none}
+  /* directions button in popup */
+  .dir-btn{display:inline-block;margin-top:8px;background:#C9A84C;color:#14090A;border:none;padding:6px 14px;border-radius:3px;font-family:'Playfair Display',serif;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;letter-spacing:.07em}
+  .dir-btn:hover{background:#E8C96A}
 
-  /* custom marker dots */
-  .marker-dot{width:14px;height:14px;border-radius:50%;border:2px solid white;box-shadow:0 1px 5px rgba(0,0,0,.7)}
+  /* Leaflet popup override */
+  .leaflet-popup-content-wrapper{background:rgba(255,255,255,.98)!important;border:none!important;border-radius:8px!important;color:#222!important;box-shadow:0 4px 20px rgba(0,0,0,.25)!important}
+  .leaflet-popup-tip{background:rgba(255,255,255,.98)!important}
+  .leaflet-popup-content{margin:10px 14px!important;font-family:'Playfair Display',serif}
+  .popup-name{color:#333;font-size:.95rem;font-weight:700;margin-bottom:2px}
+  .popup-cat{font-size:.62rem;color:#888;letter-spacing:.15em;text-transform:uppercase;margin-bottom:3px}
+  .popup-addr{font-size:.75rem;color:#666;font-style:italic}
+  .leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#ddd!important}
 </style>
 </head>
 <body>
@@ -166,7 +182,7 @@
 
   <div class="header">
     <h1>Wien</h1>
-    <div class="dates">Onsdag 6. — Søndag 10. mai 2026</div>
+    <div class="dates">Onsdag 13. — Søndag 17. mai 2026</div>
     <div class="hotel-badge">🏨 Leonardo Hotel Hauptbahnhof</div>
   </div>
 
@@ -185,6 +201,7 @@
 
   <!-- ===== ONSDAG ===== -->
   <div class="page active" id="d0">
+    <div id="weather-d0" class="weather-card"><div class="weather-loading">Laster værvarsel…</div></div>
     <div class="day-summary"><div class="vibe">"Bare landet — finn senga, men spis litt først."</div></div>
     <div class="timeline">
       <div class="activity" onclick="toggle(this)">
@@ -215,7 +232,8 @@
 
   <!-- ===== TORSDAG ===== -->
   <div class="page" id="d1">
-    <div class="day-summary"><div class="vibe">"The Ring, kafé, marked — og Wien fra oven."</div></div>
+    <div id="weather-d1" class="weather-card"><div class="weather-loading">Laster værvarsel…</div></div>
+    <div class="day-summary"><div class="vibe" id="vibe-d1">"The Ring, kafé, marked — og Wien fra oven."</div></div>
     <div class="timeline">
       <div class="activity" onclick="toggle(this)">
         <div class="activity-time">Morgen · 08:30</div>
@@ -240,17 +258,9 @@
         <div class="expand-hint">trykk for detaljer ↓</div>
         <div class="activity-detail"><div class="from-hotel">🏨 14 min · U1 → Karlsplatz, bytt U4 → Kettenbrückengasse</div>1,5 km utendørsmarked.<div class="activity-tip">Käsespätzle, Liptauer, Neni (bod 510) for mezze.</div></div>
       </div>
-      <div class="transit"><div class="transit-pill">🚇 U4 → Karlsplatz, U1 → Südtiroler Platz · 10 min hjem</div></div>
-      <div class="activity" onclick="toggle(this)">
-        <div class="activity-time">Ettermiddag · 14:30</div>
-        <div class="activity-title"><span class="emoji">😴</span>Powernap</div>
-        <div class="activity-where">Leonardo Hotel</div>
-        <div class="expand-hint">trykk for detaljer ↓</div>
-        <div class="activity-detail">Dere har gått og spist mye. En time — kvelden er lang.</div>
-      </div>
       <div class="transit"><div class="transit-pill">🚇 U1 → Praterstern (7 min) + 10 min gange inn i Prater</div></div>
       <div class="activity" onclick="toggle(this)">
-        <div class="activity-time">Ettermiddag · 16:00</div>
+        <div class="activity-time">Ettermiddag · 15:00</div>
         <div class="activity-title"><span class="emoji">🎠</span>Prater Amusement Park</div>
         <div class="activity-where">Wurstelprater · Prater, 1020 Wien</div>
         <div class="expand-hint">trykk for detaljer ↓</div>
@@ -269,7 +279,8 @@
 
   <!-- ===== FREDAG ===== -->
   <div class="page" id="d2">
-    <div class="day-summary"><div class="vibe">"Museum, Donau-tårn, og vin blant vinmarkene."</div></div>
+    <div id="weather-d2" class="weather-card"><div class="weather-loading">Laster værvarsel…</div></div>
+    <div class="day-summary"><div class="vibe" id="vibe-d2">"Museum, Donau-tårn, og vin blant vinmarkene."</div></div>
     <div class="timeline">
       <div class="activity" onclick="toggle(this)">
         <div class="activity-time">Morgen · 08:30</div>
@@ -315,7 +326,8 @@
 
   <!-- ===== LØRDAG ===== -->
   <div class="page" id="d3">
-    <div class="day-summary"><div class="vibe">"Schönbrunn, shopping, Tafelspitz — og Wien fra taket."</div></div>
+    <div id="weather-d3" class="weather-card"><div class="weather-loading">Laster værvarsel…</div></div>
+    <div class="day-summary"><div class="vibe" id="vibe-d3">"Schønbrunn, shopping, Tafelspitz — og Wien fra taket."</div></div>
     <div class="timeline">
       <div class="activity" onclick="toggle(this)">
         <div class="activity-time">Morgen · 08:30</div>
@@ -324,15 +336,15 @@
         <div class="expand-hint">trykk for detaljer ↓</div>
         <div class="activity-detail">Ut innen 09:00.</div>
       </div>
-      <div class="transit"><div class="transit-pill">🚇 U1 Südtiroler Platz → Schönbrunn · 9 min ⚡</div></div>
+      <div class="transit"><div class="transit-pill">🚇 U1 Südtiroler Platz → Schønbrunn · 9 min ⚡</div></div>
       <div class="activity" onclick="toggle(this)">
         <div class="activity-time">Morgen · 09:00</div>
-        <div class="activity-title"><span class="emoji">👑</span>Schönbrunn + Gloriette</div>
-        <div class="activity-where">Schloss Schönbrunn · Schönbrunner Schlossstraße 47</div>
+        <div class="activity-title"><span class="emoji">👑</span>Schønbrunn + Gloriette</div>
+        <div class="activity-where">Schloss Schønbrunn · Schønbrunner Schlossstraße 47</div>
         <div class="expand-hint">trykk for detaljer ↓</div>
         <div class="activity-detail"><div class="from-hotel">🏨 9 min · U1 direkte ⚡</div>Hagene åpner 06:30, gratis. Gå opp til <strong>Gloriette</strong> — 20 min. Wiens mest fotograferte panorama.<div class="activity-tip"><strong>Gloriette åpner 09:00</strong> (kafé + terrasse €5 pp). Vær der ved åpning.</div></div>
       </div>
-      <div class="transit"><div class="transit-pill">🚇 U4 Schönbrunn → Karlsplatz → U1 → Stephansplatz · 12 min</div></div>
+      <div class="transit"><div class="transit-pill">🚇 U4 Schønbrunn → Karlsplatz → U1 → Stephansplatz · 12 min</div></div>
       <div class="activity" onclick="toggle(this)">
         <div class="activity-time">Lunsj · 12:30</div>
         <div class="activity-title"><span class="emoji">🌭</span>Siste Würstel</div>
@@ -378,12 +390,12 @@
   <div class="map-page" id="kart">
     <div id="map-container">
       <div class="map-controls" id="mapControls">
-        <button class="map-filter-btn active" onclick="filterMap('alle', this)">Alle</button>
-        <button class="map-filter-btn" onclick="filterMap('plan', this)">📅 Planen</button>
-        <button class="map-filter-btn" onclick="filterMap('spise', this)">🍽️ Spise</button>
-        <button class="map-filter-btn" onclick="filterMap('kafe', this)">☕ Kafé</button>
-        <button class="map-filter-btn" onclick="filterMap('rooftop', this)">🌃 Rooftop</button>
-        <button class="map-filter-btn" onclick="filterMap('bar', this)">🍸 Bar</button>
+        <button class="map-filter-btn active" onclick="filterMap('alle',this)">Alle</button>
+        <button class="map-filter-btn" onclick="filterMap('plan',this)">📅 Plan</button>
+        <button class="map-filter-btn" onclick="filterMap('spise',this)">🍽️ Spise</button>
+        <button class="map-filter-btn" onclick="filterMap('kafe',this)">☕ Kafé</button>
+        <button class="map-filter-btn" onclick="filterMap('rooftop',this)">🌃 Rooftop</button>
+        <button class="map-filter-btn" onclick="filterMap('bar',this)">🍸 Bar</button>
       </div>
       <div id="map"></div>
       <div class="gps-status" id="gpsStatus"></div>
@@ -395,79 +407,19 @@
   <div class="page guide-page" id="spise">
     <div class="guide-section">
       <h2>Lunsj &amp; brunsj</h2>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">NALTU Wien</div><div class="spot-rating">★ 4.8 · 116</div></div>
-        <div class="spot-addr">Burggasse 40, 1070 Wien · 09–17, stengt mandag</div>
-        <div class="spot-tags"><span class="tag modern">Brunsj</span><span class="tag budget">Rimelig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Hipp frokost- og brunsj-spot i 7. Bezirk. Særlig kjent for bakt egg og utrolig vennlig eier.<div class="spot-tip"><strong>Bestill:</strong> Bakt egg + god kaffe.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Bistro Fantasy</div><div class="spot-rating">★ 4.0 · 283</div></div>
-        <div class="spot-addr">Gumpendorfer Str. 22, 1060 Wien · Stengt mandag</div>
-        <div class="spot-tags"><span class="tag modern">Brunsj</span><span class="tag outdoor">Stilig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Trendy brunsj-spot. Kjent for pastrami-sandwich og salmon cream cheese toast.<div class="spot-tip">Pastrami sandwich + cocktail.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Milchfrau</div><div class="spot-rating">★ 4.9 · 125</div></div>
-        <div class="spot-addr">Breitenfelder G. 22, 1080 Wien · Lør fra 10:00</div>
-        <div class="spot-tags"><span class="tag modern">Bar + mat</span><span class="tag outdoor">Terrasse</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Rating 4,9. Lørdag fra 10:00 — perfekt for sen brunsj med grilled cheese og cocktails.<div class="spot-tip">Grilled cheese + Aperol Spritz.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Café Délice</div><div class="spot-rating">★ 4.9 · 577</div></div>
-        <div class="spot-addr">Skodagasse 25, 1080 Wien · 08–16</div>
-        <div class="spot-tags"><span class="tag coffee">Bakeri</span><span class="tag modern">Trendy</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Pistachio-croissant og avokadotoast med laks.<div class="spot-tip">Pistachio cappuccino. Kom tidlig.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Naschmarkt <span style="font-size:.7rem;opacity:.7">(i planen)</span></div><div class="spot-rating">★ Marked</div></div>
-        <div class="spot-addr">Linke &amp; Rechte Wienzeile · U4 Kettenbrückengasse</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Tor</span><span class="tag budget">Street food</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">1,5 km utendørsmarked. Neni (bod 510) for mezze, Käsespätzle, Liptauer.</div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Rascal</div><div class="spot-rating">★ 4.5 · 72</div></div>
-        <div class="spot-addr">Dominikanerbastei 15, 1010 Wien · Søn brunsj fra 08:00</div>
-        <div class="spot-tags"><span class="tag modern">Fine dining</span><span class="tag splurge">Splurge</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Søndag fra 08:00 for brunsj. 500g ribeye, vakker design. Stengt man–tir.<div class="spot-tip">Beetroot salad + ribeye. Kunstutstilling i bakgården.</div></div>
-      </div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">NALTU Wien</div><div class="spot-rating">★ 4.8 · 116</div></div><div class="spot-addr">Burggasse 40, 1070 Wien · 09–17, stengt mandag</div><div class="spot-tags"><span class="tag modern">Brunsj</span><span class="tag budget">Rimelig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Hipp frokost- og brunsj-spot i 7. Bezirk. Særlig kjent for bakt egg.<div class="spot-tip"><strong>Bestill:</strong> Bakt egg + god kaffe.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Bistro Fantasy</div><div class="spot-rating">★ 4.0 · 283</div></div><div class="spot-addr">Gumpendorfer Str. 22, 1060 Wien · Stengt mandag</div><div class="spot-tags"><span class="tag modern">Brunsj</span><span class="tag outdoor">Stilig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Trendy brunsj-spot. Pastrami-sandwich og salmon cream cheese toast.<div class="spot-tip">Pastrami sandwich + cocktail.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Milchfrau</div><div class="spot-rating">★ 4.9 · 125</div></div><div class="spot-addr">Breitenfelder G. 22, 1080 Wien · Lør fra 10:00</div><div class="spot-tags"><span class="tag modern">Bar + mat</span><span class="tag outdoor">Terrasse</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Rating 4,9. Lørdag fra 10:00 — grilled cheese og cocktails.<div class="spot-tip">Grilled cheese + Aperol Spritz.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Café Délice</div><div class="spot-rating">★ 4.9 · 577</div></div><div class="spot-addr">Skodagasse 25, 1080 Wien · 08–16</div><div class="spot-tags"><span class="tag coffee">Bakeri</span><span class="tag modern">Trendy</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Pistachio-croissant og avokadotoast med laks.<div class="spot-tip">Pistachio cappuccino. Kom tidlig.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Naschmarkt</div><div class="spot-rating">★ Marked</div></div><div class="spot-addr">Linke &amp; Rechte Wienzeile · U4 Kettenbrückengasse</div><div class="spot-tags"><span class="tag plan">I planen · Tor</span><span class="tag budget">Street food</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">1,5 km utendørsmarked. Neni (bod 510) for mezze, Käsespätzle, Liptauer.</div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Rascal</div><div class="spot-rating">★ 4.5 · 72</div></div><div class="spot-addr">Dominikanerbastei 15, 1010 Wien · Søn brunsj fra 08:00</div><div class="spot-tags"><span class="tag modern">Fine dining</span><span class="tag splurge">Splurge</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Søndag fra 08:00 for brunsj. 500g ribeye, vakker design. Stengt man–tir.<div class="spot-tip">Beetroot salad + ribeye.</div></div></div>
     </div>
     <div class="guide-section">
       <h2>Middag</h2>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Plachutta Wollzeile <span style="font-size:.7rem;opacity:.7">(i planen)</span></div><div class="spot-rating">★ 4.2 · 13 000</div></div>
-        <div class="spot-addr">Wollzeile 38, 1010 Wien</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Lør</span><span class="tag classic">Østerriksk</span><span class="tag splurge">Splurge</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Tafelspitz — kokt oksekjøtt i kobberkjele med eple-pepperrot.<div class="spot-tip"><strong>Reserver:</strong> plachutta.at — ingen walk-ins.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Figlmüller – Bäckerstraße</div><div class="spot-rating">★ 4.3 · 31 584</div></div>
-        <div class="spot-addr">Bäckerstraße 6, 1010 Wien · Alle dager 11:30–23:30</div>
-        <div class="spot-tags"><span class="tag classic">Schnitzel</span><span class="tag budget">Rimelig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Wiens mest berømte Schnitzel — stor som et fat.<div class="spot-tip">Original Figlmüller Schnitzel + potetssalad. Bestill bord.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Glacis Beisl <span style="font-size:.7rem;opacity:.7">(i planen)</span></div><div class="spot-rating">★ 4.4 · 5 254</div></div>
-        <div class="spot-addr">Breite G. 4 · MuseumsQuartier</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Fre</span><span class="tag outdoor">Hage</span><span class="tag classic">Østerriksk</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Hage i fortifikasjonsanlegg bak MuseumsQuartier.</div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Rascal</div><div class="spot-rating">★ 4.5 · 72</div></div>
-        <div class="spot-addr">Dominikanerbastei 15, 1010 Wien · Ons–lør fra 17:00</div>
-        <div class="spot-tags"><span class="tag modern">Moderne</span><span class="tag splurge">Splurge</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Kreative retter og Wiens beste biffer.<div class="spot-tip">Rib-eye 500g. Bestill via telefon.</div></div>
-      </div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Plachutta Wollzeile</div><div class="spot-rating">★ 4.2 · 13 000</div></div><div class="spot-addr">Wollzeile 38, 1010 Wien</div><div class="spot-tags"><span class="tag plan">I planen · Lør</span><span class="tag classic">Østerriksk</span><span class="tag splurge">Splurge</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Tafelspitz — kokt oksekjøtt i kobberkjele med eple-pepperrot.<div class="spot-tip"><strong>Reserver:</strong> plachutta.at — ingen walk-ins.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Figlmüller – Bäckerstraße</div><div class="spot-rating">★ 4.3 · 31 584</div></div><div class="spot-addr">Bäckerstraße 6, 1010 Wien · Alle dager 11:30–23:30</div><div class="spot-tags"><span class="tag classic">Schnitzel</span><span class="tag budget">Rimelig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Wiens mest berømte Schnitzel — stor som et fat.<div class="spot-tip">Original Figlmüller Schnitzel + potetssalad.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Glacis Beisl</div><div class="spot-rating">★ 4.4 · 5 254</div></div><div class="spot-addr">Breite G. 4 · MuseumsQuartier</div><div class="spot-tags"><span class="tag plan">I planen · Fre</span><span class="tag outdoor">Hage</span><span class="tag classic">Østerriksk</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Hage i fortifikasjonsanlegg bak MuseumsQuartier.</div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Rascal</div><div class="spot-rating">★ 4.5 · 72</div></div><div class="spot-addr">Dominikanerbastei 15, 1010 Wien · Ons–lør fra 17:00</div><div class="spot-tags"><span class="tag modern">Moderne</span><span class="tag splurge">Splurge</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Kreative retter og Wiens beste biffer.<div class="spot-tip">Rib-eye 500g. Bestill via telefon.</div></div></div>
     </div>
   </div>
 
@@ -475,52 +427,16 @@
   <div class="page guide-page" id="kafe">
     <div class="guide-section">
       <h2>Klassiske wienerkafeer</h2>
-      <div class="notice">⚠ Café Central er stengt til høst 2026 (renovering). Alternativer under.</div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">DECENTRAL</div><div class="spot-rating">★ 4.3 · Pop-up</div></div>
-        <div class="spot-addr">Freyung 3/1, 1010 Wien · 07:30–22:00 alle dager</div>
-        <div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag modern">Pop-up</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Café Centrals offisielle midlertidige hjem i Palais Harrach på Freyung. Samme kvalitet, kortere kø.<div class="spot-tip">Kaffe, focaccia og amandine. En fordel fremfor originalen.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Café Landtmann</div><div class="spot-rating">★ 4.4 · 20 190</div></div>
-        <div class="spot-addr">Universitätsring 4 · ved Burgtheater · 07:30–00:00</div>
-        <div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag splurge">Splurge</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Freud hadde fast bord her. Perfekt etter Ring-turen.<div class="spot-tip">Veal schnitzel er anmelderfavoritten. Bestill bord.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Café Sperl</div><div class="spot-rating">★ 4.0 · 5 695</div></div>
-        <div class="spot-addr">Gumpendorfer Str. 11, 1060 Wien · Fra 07:00</div>
-        <div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag budget">Rimelig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Fra 1880, biljard-bord siden åpning. Langt færre turister.<div class="spot-tip">Frühstück komplett ca. €12. Best for en rolig morgen.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Gerstner K. u. K. Hofzuckerbäcker</div><div class="spot-rating">★ 4.3 · 5 128</div></div>
-        <div class="spot-addr">Kärntner Str. 51 · ved Statsoperaen · 08–22</div>
-        <div class="spot-tags"><span class="tag classic">Konditori</span><span class="tag splurge">Imperial</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Hoffkonditor siden 1873. Tre elegante etasjer. Rett overfor Operaen.<div class="spot-tip">Chai latte og kaker. Ingen reservering nødvendig.</div></div>
-      </div>
+      <div class="notice">⚠ Café Central er stengt til høst 2026 (renovering).</div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">DECENTRAL</div><div class="spot-rating">★ 4.3 · Pop-up</div></div><div class="spot-addr">Freyung 3/1, 1010 Wien · 07:30–22:00</div><div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag modern">Pop-up</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Café Centrals offisielle pop-up i Palais Harrach. Samme kvalitet, kortere kø.<div class="spot-tip">Kaffe, focaccia og amandine.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Café Landtmann</div><div class="spot-rating">★ 4.4 · 20 190</div></div><div class="spot-addr">Universitätsring 4 · ved Burgtheater · 07:30–00:00</div><div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag splurge">Splurge</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Freud hadde fast bord her. Perfekt etter Ring-turen.<div class="spot-tip">Veal schnitzel er anmelderfavoritten. Bestill bord.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Café Sperl</div><div class="spot-rating">★ 4.0 · 5 695</div></div><div class="spot-addr">Gumpendorfer Str. 11, 1060 Wien · Fra 07:00</div><div class="spot-tags"><span class="tag classic">Wienerkafé</span><span class="tag budget">Rimelig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Fra 1880, biljard-bord siden åpning. Langt færre turister.<div class="spot-tip">Frühstück komplett ca. €12.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Gerstner K. u. K. Hofzuckerbäcker</div><div class="spot-rating">★ 4.3 · 5 128</div></div><div class="spot-addr">Kärntner Str. 51 · ved Statsoperaen · 08–22</div><div class="spot-tags"><span class="tag classic">Konditori</span><span class="tag splurge">Imperial</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Hoffkonditor siden 1873. Tre elegante etasjer.<div class="spot-tip">Chai latte og kaker. Ingen reservering.</div></div></div>
     </div>
     <div class="guide-section">
       <h2>Moderne kaffebarer</h2>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Oak Brew Coffee</div><div class="spot-rating">★ 4.9 · 55</div></div>
-        <div class="spot-addr">Wiedner Hauptstraße 50, 1040 · nær hotellet · Stengt søn</div>
-        <div class="spot-tags"><span class="tag coffee">Spesialkaffe</span><span class="tag budget">Rimelig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">10 min gange fra hotellet. Lørdag: Mimosa Saturday. Man–fre 07:30, lør 10:00.<div class="spot-tip">Best cappuccino i nabolaget.</div></div>
-      </div>
-      <div class="spot-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Café Délice</div><div class="spot-rating">★ 4.9 · 577</div></div>
-        <div class="spot-addr">Skodagasse 25, 1080 Wien · 08–16</div>
-        <div class="spot-tags"><span class="tag modern">Trendy</span><span class="tag coffee">Bakeri</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Pistachio-croissant er signaturetten.<div class="spot-tip">Pistachio cappuccino. Kom tidlig.</div></div>
-      </div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Oak Brew Coffee</div><div class="spot-rating">★ 4.9 · 55</div></div><div class="spot-addr">Wiedner Hauptstraße 50, 1040 · nær hotellet · Stengt søn</div><div class="spot-tags"><span class="tag coffee">Spesialkaffe</span><span class="tag budget">Rimelig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">10 min gange fra hotellet. Lørdag: Mimosa Saturday.<div class="spot-tip">Best cappuccino i nabolaget.</div></div></div>
+      <div class="spot-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Café Délice</div><div class="spot-rating">★ 4.9 · 577</div></div><div class="spot-addr">Skodagasse 25, 1080 Wien · 08–16</div><div class="spot-tags"><span class="tag modern">Trendy</span><span class="tag coffee">Bakeri</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Pistachio-croissant er signaturetten.<div class="spot-tip">Pistachio cappuccino. Kom tidlig.</div></div></div>
     </div>
   </div>
 
@@ -528,48 +444,11 @@
   <div class="page guide-page" id="rooftop">
     <div class="guide-section">
       <h2>Rooftop-barer</h2>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Lamée Rooftop</div><div class="spot-rating">★ 4.1 · 2 332</div></div>
-        <div class="spot-addr">Lichtensteg 2 · Til 02:00 tor–lør</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Tor 20:30</span><span class="tag rooftop-tag">Stephansdom-utsikt</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Utsikt rett mot Stephansdom. Skjult heis-inngang.<div class="spot-tip"><strong>Bestill:</strong> lameerooftop.com.</div></div>
-      </div>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Aurora Rooftop Bar</div><div class="spot-rating">★ 4.4 · 1 706</div></div>
-        <div class="spot-addr">Arsenalstraße 10 · 8 min gange fra hotellet</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Lør 22:30</span><span class="tag rooftop-tag">Panorama</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Panoramautsikt, godt whisky-utvalg.<div class="spot-tip">Banana Smoked Old Fashioned. Gå hjem etterpå.</div></div>
-      </div>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Cayo Coco</div><div class="spot-rating">★ 4.0 · 640</div></div>
-        <div class="spot-addr">Rudolf-Sallinger-Platz 1 · Fra 15:00</div>
-        <div class="spot-tags"><span class="tag rooftop-tag">Panorama</span><span class="tag outdoor">Pool area</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Grønn rooftop med sofa og poolområde. Rommelig.<div class="spot-tip">Banana Smoked Old Fashioned. U1 → Stadtpark · 12 min.</div></div>
-      </div>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">SKY Bar im STEFFL</div><div class="spot-rating">★ 4.2 · 6 138</div></div>
-        <div class="spot-addr">Kärntner Str. 19 · 10:00–00:00</div>
-        <div class="spot-tags"><span class="tag rooftop-tag">Utsikt</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">7. etasje i Steffl. Utsikt mot Stephansdom. Ingen reservering.<div class="spot-tip">Alternativ om Lamée er fullt.</div></div>
-      </div>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Atmosphere · Ritz-Carlton</div><div class="spot-rating">★ 4.4 · 602</div></div>
-        <div class="spot-addr">Schubertring 5/7 · Man–tor 16–22, fre–lør 12–23:30</div>
-        <div class="spot-tags"><span class="tag rooftop-tag">Luksus</span><span class="tag splurge">Splurge</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Gondoler på taket, utsikt mot Stephansdom og Ring.<div class="spot-tip">Gå inn gjennom Ritz-Carlton-lobbyen. Bestill gondol.</div></div>
-      </div>
-      <div class="spot-card rooftop-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Donauturm Revolving Bar</div><div class="spot-rating">★ 4.6 · 20 270</div></div>
-        <div class="spot-addr">Donauturmplatz 1 · 10:00–22:00</div>
-        <div class="spot-tags"><span class="tag plan">I planen · Fre</span><span class="tag rooftop-tag">252 m</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Roterende kafé på 252 m. Full runde 26 min.<div class="spot-tip">Bestill vindubord i roterende restaurant.</div></div>
-      </div>
+      <div class="spot-card rooftop-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Lamée Rooftop</div><div class="spot-rating">★ 4.1 · 2 332</div></div><div class="spot-addr">Lichtensteg 2 · Til 02:00 tor–lør</div><div class="spot-tags"><span class="tag plan">I planen · Tor 20:30</span><span class="tag rooftop-tag">Stephansdom-utsikt</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Utsikt rett mot Stephansdom. Skjult heis-inngang.<div class="spot-tip"><strong>Bestill:</strong> lameerooftop.com.</div></div></div>
+      <div class="spot-card rooftop-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Aurora Rooftop Bar</div><div class="spot-rating">★ 4.4 · 1 706</div></div><div class="spot-addr">Arsenalstraße 10 · 8 min gange fra hotellet</div><div class="spot-tags"><span class="tag plan">I planen · Lør 22:30</span><span class="tag rooftop-tag">Panorama</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Panoramautsikt, godt whisky-utvalg.<div class="spot-tip">Banana Smoked Old Fashioned. Gå hjem etterpå.</div></div></div>
+      <div class="spot-card rooftop-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Cayo Coco</div><div class="spot-rating">★ 4.0 · 640</div></div><div class="spot-addr">Rudolf-Sallinger-Platz 1 · Fra 15:00</div><div class="spot-tags"><span class="tag rooftop-tag">Panorama</span><span class="tag outdoor">Pool area</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Grønn rooftop med sofa og poolområde.<div class="spot-tip">U1 → Stadtpark · 12 min.</div></div></div>
+      <div class="spot-card rooftop-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">SKY Bar im STEFFL</div><div class="spot-rating">★ 4.2 · 6 138</div></div><div class="spot-addr">Kärntner Str. 19 · 10:00–00:00</div><div class="spot-tags"><span class="tag rooftop-tag">Utsikt</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">7. etasje i Steffl. Utsikt mot Stephansdom.<div class="spot-tip">Alternativ om Lamée er fullt.</div></div></div>
+      <div class="spot-card rooftop-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Atmosphere · Ritz-Carlton</div><div class="spot-rating">★ 4.4 · 602</div></div><div class="spot-addr">Schubertring 5/7 · Man–tor 16–22, fre–lør 12–23:30</div><div class="spot-tags"><span class="tag rooftop-tag">Luksus</span><span class="tag splurge">Splurge</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Gondoler på taket, utsikt mot Stephansdom og Ring.<div class="spot-tip">Gå inn gjennom Ritz-Carlton-lobbyen.</div></div></div>
     </div>
   </div>
 
@@ -577,63 +456,33 @@
   <div class="page guide-page" id="barer">
     <div class="guide-section">
       <h2>Cocktailbarer &amp; kveldsbarer</h2>
-      <div class="spot-card bar-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Saint George Cocktail Bar</div><div class="spot-rating">★ 5.0 · 336</div></div>
-        <div class="spot-addr">Neustiftgasse 84, 1070 Wien · Tir–lør fra 18:00</div>
-        <div class="spot-tags"><span class="tag bar-tag">Cocktails</span><span class="tag splurge">Craft</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Rating 5,0. Liten og koselig bar drevet av utrolig imøtekommende eiere. Signatur-cocktails du ikke finner andre steder.<div class="spot-tip"><strong>Apple Crumble-cocktailen</strong> er favoritten. Book bord — liten kapasitet.</div></div>
-      </div>
-      <div class="spot-card bar-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Needle Vinyl Bar</div><div class="spot-rating">★ 4.8 · 1 535</div></div>
-        <div class="spot-addr">Färbergasse 8, 1010 Wien · Alle dager 17:00–02:00</div>
-        <div class="spot-tags"><span class="tag bar-tag">Vinyl</span><span class="tag bar-tag">Cocktails</span><span class="tag budget">Rimelig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Vinyl-bar i 1. Bezirk — intimt interiør, musikk som ikke drukner samtalen.<div class="spot-tip">Spør bartender om anbefaling. La dem velge musikken.</div></div>
-      </div>
-      <div class="spot-card bar-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Plus43 | Speakeasy</div><div class="spot-rating">★ 4.9 · 569</div></div>
-        <div class="spot-addr">Westbahnstraße 10, 1070 Wien · Man–tor 18–00, fre–lør 20–02</div>
-        <div class="spot-tags"><span class="tag bar-tag">Speakeasy</span><span class="tag bar-tag">Craft cocktails</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Du trenger kode for å komme inn — e-post dem på forhånd. Eieren Semih er legendarisk. Rating 4,9.<div class="spot-tip"><strong>E-post for kode.</strong> Berries in Paris og Whiskey Sour er signaturdrinkene.</div></div>
-      </div>
-      <div class="spot-card bar-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Loos American Bar</div><div class="spot-rating">★ 4.2 · 2 458</div></div>
-        <div class="spot-addr">Kärntner Durchgang 10, 1010 Wien · Alle dager 12:00–04:00</div>
-        <div class="spot-tags"><span class="tag bar-tag">Art Deco</span><span class="tag bar-tag">Historisk</span><span class="tag splurge">Eksklusiv</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Bar fra 1908 av Adolf Loos — onyx-marmor, 27 sitteplasser. Art deco. Åpent til 04:00.<div class="spot-tip"><strong>Reserver bord</strong> — fullt etter 21:00. Negroni eller Manhattan. Dress code.</div></div>
-      </div>
-      <div class="spot-card bar-card" onclick="toggleSpot(this)">
-        <div class="spot-header"><div class="spot-name">Milchfrau</div><div class="spot-rating">★ 4.9 · 125</div></div>
-        <div class="spot-addr">Breitenfelder G. 22, 1080 Wien · Tir–fre fra 17, lør fra 10</div>
-        <div class="spot-tags"><span class="tag bar-tag">Cocktails</span><span class="tag outdoor">Terrasse</span><span class="tag budget">Koselig</span></div>
-        <div class="spot-expand">trykk for detaljer ↓</div>
-        <div class="spot-desc">Upretensiøs og populær — grilled cheese og utmerkede cocktails.<div class="spot-tip">Lørdag fra 10:00 for brunsj. Stengt man og søn.</div></div>
-      </div>
+      <div class="spot-card bar-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Saint George Cocktail Bar</div><div class="spot-rating">★ 5.0 · 336</div></div><div class="spot-addr">Neustiftgasse 84, 1070 Wien · Tir–lør fra 18:00</div><div class="spot-tags"><span class="tag bar-tag">Cocktails</span><span class="tag splurge">Craft</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Rating 5,0. Liten og koselig bar med signatur-cocktails du ikke finner andre steder.<div class="spot-tip"><strong>Apple Crumble-cocktailen.</strong> Book bord — liten kapasitet.</div></div></div>
+      <div class="spot-card bar-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Needle Vinyl Bar</div><div class="spot-rating">★ 4.8 · 1 535</div></div><div class="spot-addr">Färbergasse 8, 1010 Wien · Alle dager 17:00–02:00</div><div class="spot-tags"><span class="tag bar-tag">Vinyl</span><span class="tag bar-tag">Cocktails</span><span class="tag budget">Rimelig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Vinyl-bar i 1. Bezirk — intimt interiør, musikk, strålende cocktails.<div class="spot-tip">Spør bartender om anbefaling.</div></div></div>
+      <div class="spot-card bar-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Plus43 | Speakeasy</div><div class="spot-rating">★ 4.9 · 569</div></div><div class="spot-addr">Westbahnstraße 10, 1070 Wien · Man–tor 18–00, fre–lør 20–02</div><div class="spot-tags"><span class="tag bar-tag">Speakeasy</span><span class="tag bar-tag">Craft cocktails</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Kode kreves — e-post dem på forhånd. Eieren Semih er legendarisk.<div class="spot-tip"><strong>E-post for kode.</strong> Berries in Paris er signaturcocktailen.</div></div></div>
+      <div class="spot-card bar-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Loos American Bar</div><div class="spot-rating">★ 4.2 · 2 458</div></div><div class="spot-addr">Kärntner Durchgang 10, 1010 Wien · Alle dager 12:00–04:00</div><div class="spot-tags"><span class="tag bar-tag">Art Deco</span><span class="tag bar-tag">Historisk</span><span class="tag splurge">Eksklusiv</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Bar fra 1908 av Adolf Loos — onyx-marmor, 27 sitteplasser. Åpent til 04:00.<div class="spot-tip"><strong>Reserver bord</strong> — fullt etter 21:00. Negroni eller Manhattan.</div></div></div>
+      <div class="spot-card bar-card" onclick="toggleSpot(this)"><div class="spot-header"><div class="spot-name">Milchfrau</div><div class="spot-rating">★ 4.9 · 125</div></div><div class="spot-addr">Breitenfelder G. 22, 1080 Wien · Tir–fre fra 17, lør fra 10</div><div class="spot-tags"><span class="tag bar-tag">Cocktails</span><span class="tag outdoor">Terrasse</span><span class="tag budget">Koselig</span></div><div class="spot-expand">trykk for detaljer ↓</div><div class="spot-desc">Upretensiøs og populær — grilled cheese og utmerkede cocktails.<div class="spot-tip">Lørdag fra 10:00 for brunsj.</div></div></div>
     </div>
   </div>
 
   <!-- ===== INFO ===== -->
   <div class="page guide-page" id="info">
     <div class="hotel-box">
-      <h3>Hotellet deres</h3>
+      <h3>Hotellet</h3>
       <div class="hname">Leonardo Hotel Vienna Hauptbahnhof</div>
       <div class="addr">Gerhard-Bronner-Straße 5, 1100 Wien · ★ 4,4</div>
-      <div class="note">✦ Frokost inkludert alle dager<br>✦ 3 min gange til Wien Hauptbahnhof<br>✦ U1 Südtiroler Platz-Hauptbahnhof rett utenfor<br>✦ S7 flyplasstog fra Hauptbahnhof (30 min, €4,40)<br>✦ Aurora Rooftop Bar: 8 min gange</div>
+      <div class="note">✦ Frokost inkludert alle dager<br>✦ 3 min gange til Wien Hauptbahnhof<br>✦ U1 Südtiroler Platz-Hauptbahnhof rett utenfor<br>✦ S7 flyplasstog (30 min, €4,40)<br>✦ Aurora Rooftop Bar: 8 min gange</div>
     </div>
     <div class="info-section">
       <h2>Reisetider fra hotellet</h2>
       <div class="info-row"><span class="label">→ Stephansplatz</span><span class="value">U1 · 4 min</span></div>
       <div class="info-row"><span class="label">→ Naschmarkt</span><span class="value">U1+U4 · 14 min</span></div>
       <div class="info-row"><span class="label">→ Prater / Wurstelprater</span><span class="value">U1 · 22 min</span></div>
-      <div class="info-row"><span class="label">→ Schönbrunn ⚡</span><span class="value">U1 · 9 min</span></div>
+      <div class="info-row"><span class="label">→ Schønbrunn ⚡</span><span class="value">U1 · 9 min</span></div>
       <div class="info-row"><span class="label">→ KHM / Museum Quarter</span><span class="value">U1+U2 · 25 min</span></div>
       <div class="info-row"><span class="label">→ Donauturm</span><span class="value">U-Bahn · 35 min</span></div>
-      <div class="info-row"><span class="label">→ Wieninger Heuriger</span><span class="value">U1+trikk D+gange · 45 min</span></div>
+      <div class="info-row"><span class="label">→ Wieninger Heuriger</span><span class="value">U1+trikk D · 45 min</span></div>
       <div class="info-row"><span class="label">→ Aurora Rooftop 🚶</span><span class="value">8 min gange ⚡</span></div>
-      <div class="info-row"><span class="label">→ Flyplassen VIE</span><span class="value">S7 fra Hbf · 30 min</span></div>
+      <div class="info-row"><span class="label">→ Flyplassen VIE</span><span class="value">S7 · 30 min</span></div>
     </div>
     <div class="info-section">
       <h2>Billetter</h2>
@@ -661,209 +510,279 @@
 </div>
 
 <script>
-// ===== TAB NAVIGATION =====
+// ===== NAVIGATION =====
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.page, .map-page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.page,.map-page').forEach(p=>p.classList.remove('active'));
     tab.classList.add('active');
-    const pg = document.getElementById(tab.dataset.page);
+    const pg=document.getElementById(tab.dataset.page);
     pg.classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
-    if(tab.dataset.page === 'kart' && !mapInitialized) initMap();
+    if(tab.dataset.page==='kart'&&!mapInitialized) initMap();
   });
 });
-
 function toggle(el){el.classList.toggle('expanded')}
 function toggleSpot(el){el.classList.toggle('expanded')}
 
-// ===== MAP DATA =====
-const locations = [
-  // --- PLAN ---
-  {name:'Leonardo Hotel', cat:'plan', sub:'Hotellet', lat:48.1836, lng:16.3794, icon:'🏨', color:'#C9A84C'},
-  {name:'Bitzinger Würstelstand', cat:'plan', sub:'Street food · Ons kveld', lat:48.2041, lng:16.3685, icon:'🌭', color:'#C9A84C'},
-  {name:'Naschmarkt', cat:'plan', sub:'Marked · Tor lunsj', lat:48.1990, lng:16.3620, icon:'🥐', color:'#C9A84C'},
-  {name:'Prater Amusement Park', cat:'plan', sub:'Fornøyelsespark · Tor', lat:48.2167, lng:16.3980, icon:'🎠', color:'#C9A84C'},
-  {name:'Kunsthistorisches Museum', cat:'plan', sub:'Museum · Fre formiddag', lat:48.2038, lng:16.3618, icon:'🖼️', color:'#C9A84C'},
-  {name:'Glacis Beisl', cat:'plan', sub:'Lunsj · Fre', lat:48.2031, lng:16.3571, icon:'🍽️', color:'#C9A84C'},
-  {name:'Donauturm', cat:'plan', sub:'Observation Deck · Fre', lat:48.2403, lng:16.4100, icon:'🗼', color:'#C9A84C'},
-  {name:'Wieninger am Nussberg', cat:'plan', sub:'Heuriger · Fre kveld', lat:48.2678, lng:16.3475, icon:'🍷', color:'#C9A84C'},
-  {name:'Schönbrunn + Gloriette', cat:'plan', sub:'Palass · Lør morgen', lat:48.1858, lng:16.3128, icon:'👑', color:'#C9A84C'},
-  {name:'Würstelstand am Hohen Markt', cat:'plan', sub:'Lunsj · Lør', lat:48.2112, lng:16.3723, icon:'🌭', color:'#C9A84C'},
-  {name:'Plachutta Wollzeile', cat:'plan', sub:'Middag · Lør', lat:48.2075, lng:16.3787, icon:'🥩', color:'#C9A84C'},
-  // --- ROOFTOP ---
-  {name:'Lamée Rooftop', cat:'rooftop', sub:'Rooftop · Tor 20:30', lat:48.2104, lng:16.3740, icon:'🌃', color:'#90C0FF'},
-  {name:'Aurora Rooftop Bar', cat:'rooftop', sub:'Rooftop · Lør 22:30', lat:48.1852, lng:16.3833, icon:'🌠', color:'#90C0FF'},
-  {name:'Cayo Coco', cat:'rooftop', sub:'Rooftop bar', lat:48.2012, lng:16.3813, icon:'🌅', color:'#90C0FF'},
-  {name:'SKY Bar im STEFFL', cat:'rooftop', sub:'Rooftop bar', lat:48.2064, lng:16.3716, icon:'🌆', color:'#90C0FF'},
-  {name:'Atmosphere · Ritz-Carlton', cat:'rooftop', sub:'Rooftop bar · Luksus', lat:48.2024, lng:16.3765, icon:'✨', color:'#90C0FF'},
-  // --- BARER ---
-  {name:'Saint George Cocktail Bar', cat:'bar', sub:'Cocktailbar ★5.0', lat:48.2058, lng:16.3443, icon:'🍸', color:'#F0A0C0'},
-  {name:'Needle Vinyl Bar', cat:'bar', sub:'Vinyl & cocktails ★4.8', lat:48.2121, lng:16.3689, icon:'🎵', color:'#F0A0C0'},
-  {name:'Plus43 Speakeasy', cat:'bar', sub:'Speakeasy ★4.9', lat:48.2019, lng:16.3475, icon:'🔑', color:'#F0A0C0'},
-  {name:'Loos American Bar', cat:'bar', sub:'Art Deco 1908', lat:48.2072, lng:16.3713, icon:'🍹', color:'#F0A0C0'},
-  {name:'Milchfrau', cat:'bar', sub:'Cocktailbar ★4.9', lat:48.2142, lng:16.3418, icon:'🥂', color:'#F0A0C0'},
-  // --- KAFÉ ---
-  {name:'Café Landtmann', cat:'kafe', sub:'Wienerkafé klassiker', lat:48.2115, lng:16.3615, icon:'☕', color:'#D4A060'},
-  {name:'Café Sperl', cat:'kafe', sub:'Autentisk wienerkafé', lat:48.1998, lng:16.3611, icon:'☕', color:'#D4A060'},
-  {name:'Gerstner K.u.K.', cat:'kafe', sub:'Hoffkonditor 1873', lat:48.2034, lng:16.3704, icon:'🍰', color:'#D4A060'},
-  {name:'DECENTRAL (pop-up)', cat:'kafe', sub:'Café Central pop-up', lat:48.2115, lng:16.3653, icon:'☕', color:'#D4A060'},
-  // --- SPISE ---
-  {name:'Figlmüller Bäckerstraße', cat:'spise', sub:'Schnitzel restaurant', lat:48.2093, lng:16.3756, icon:'🍽️', color:'#90D4A0'},
-  {name:'Rascal', cat:'spise', sub:'Moderne restaurant ★4.5', lat:48.2102, lng:16.3799, icon:'🥩', color:'#90D4A0'},
+// ===== WEATHER =====
+// Trip dates: Wed 6 May (d0/ankomst), Thu 7 (d1), Fri 8 (d2), Sat 9 (d3)
+const TRIP_DATES = [
+  {id:'d0', date:'2026-05-13', label:'Onsdag 13. mai'},
+  {id:'d1', date:'2026-05-14', label:'Torsdag 14. mai'},
+  {id:'d2', date:'2026-05-15', label:'Fredag 15. mai'},
+  {id:'d3', date:'2026-05-16', label:'Lørdag 16. mai'},
 ];
 
-let map, mapInitialized = false;
-let userMarker = null, watchId = null, isTracking = false;
-let allMarkers = [];
-let activeFilter = 'alle';
+const WMO_CODES = {
+  0:['Klarvær','☀️'], 1:['Mest klart','🌤️'], 2:['Delvis skyet','⛅'], 3:['Overskyet','☁️'],
+  45:['Tåke','🌫️'], 48:['Rim-tåke','🌫️'],
+  51:['Lett yr','🌦️'], 53:['Moderat yr','🌦️'], 55:['Tett yr','🌧️'],
+  61:['Lett regn','🌧️'], 63:['Moderat regn','🌧️'], 65:['Kraftig regn','🌧️'],
+  71:['Lett snø','🌨️'], 73:['Moderat snø','🌨️'], 75:['Kraftig snø','🌨️'],
+  80:['Regnbyger','🌦️'], 81:['Moderate regnbyger','🌧️'], 82:['Kraftige regnbyger','⛈️'],
+  95:['Tordenvær','⛈️'], 96:['Tordenvær m/hagl','⛈️'], 99:['Kraftig tordenvær','⛈️'],
+};
 
-function initMap() {
-  mapInitialized = true;
-  map = L.map('map', {
-    center: [48.208, 16.370],
-    zoom: 13,
-    zoomControl: false,
-    attributionControl: false
-  });
+function weatherNote(code, maxTemp, rain) {
+  const isRain = [51,53,55,61,63,65,80,81,82,95,96,99].includes(code);
+  const isCold = maxTemp < 12;
+  const isHot = maxTemp >= 22;
+  const isGreat = !isRain && maxTemp >= 16 && maxTemp < 28;
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19
-  }).addTo(map);
+  if (isRain && rain > 5) {
+    return {cls:'rain', text:`☂️ Ta med paraply i dag — ${rain.toFixed(0)} mm nedbør ventet. Naschmarkt og utendørsaktiviteter kan bli våte, vurder å ta Prater-attraksjoner innendørs.`};
+  }
+  if (isRain) {
+    return {cls:'rain', text:`🌂 Lette regnbyger mulig — ta med en lett jakke. Innendørs-aktiviteter som museum passer godt.`};
+  }
+  if (isGreat) {
+    return {cls:'great', text:`🌞 Strålende turistvær! Perfekt for Ringstrassen-turen til fots og utendørs spising.`};
+  }
+  if (isHot) {
+    return {cls:'', text:`🥵 Varmt vær — drikk mye vann. Schanigarten og skyggerike hager er gull verdt.`};
+  }
+  if (isCold) {
+    return {cls:'', text:`🧥 Kjølig — ta med en varm jakke, særlig om kvelden på rooftop-barene.`};
+  }
+  return {cls:'great', text:`👍 Fint vær for sightseeing — nyt Wien!`};
+}
 
-  // Hotel marker — special star
-  const hotelIcon = L.divIcon({
-    html: `<div style="background:#C9A84C;color:#14090A;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,.7);font-weight:bold">🏨</div>`,
-    iconSize: [28,28], iconAnchor: [14,14], className:''
-  });
+async function fetchWeather() {
+  try {
+    const dates = TRIP_DATES.map(d=>d.date);
+    const startDate = dates[0];
+    const endDate = dates[dates.length-1];
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=48.2082&longitude=16.3738&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=Europe%2FVienna&start_date=${startDate}&end_date=${endDate}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const daily = data.daily;
 
-  locations.forEach(loc => {
-    const icon = L.divIcon({
-      html: `<div style="background:${loc.color};width:${loc.cat==='plan'?26:22}px;height:${loc.cat==='plan'?26:22}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${loc.cat==='plan'?13:11}px;border:2px solid rgba(255,255,255,0.8);box-shadow:0 2px 6px rgba(0,0,0,.6)">${loc.icon}</div>`,
-      iconSize: [loc.cat==='plan'?26:22, loc.cat==='plan'?26:22],
-      iconAnchor: [loc.cat==='plan'?13:11, loc.cat==='plan'?13:11],
-      className:''
+    TRIP_DATES.forEach((d,i)=>{
+      const code = daily.weathercode[i];
+      const maxT = Math.round(daily.temperature_2m_max[i]);
+      const minT = Math.round(daily.temperature_2m_min[i]);
+      const rain = daily.precipitation_sum[i] || 0;
+      const wind = Math.round(daily.windspeed_10m_max[i]);
+      const [desc, icon] = WMO_CODES[code] || ['Ukjent','🌡️'];
+      const note = weatherNote(code, maxT, rain);
+
+      const el = document.getElementById(`weather-${d.id}`);
+      if(!el) return;
+      el.innerHTML = `
+        <div class="weather-main">
+          <div class="weather-icon">${icon}</div>
+          <div>
+            <div class="weather-temp"><span class="temp-hi">${maxT}°</span><span class="temp-lo">/ ${minT}°</span></div>
+            <div class="weather-desc">${desc} · ${d.label}</div>
+          </div>
+        </div>
+        <div class="weather-details">
+          <div class="weather-detail"><span>💧</span> ${rain.toFixed(1)} mm</div>
+          <div class="weather-detail"><span>💨</span> ${wind} km/t</div>
+        </div>
+        <div class="weather-note ${note.cls}">${note.text}</div>
+      `;
+    });
+  } catch(e) {
+    TRIP_DATES.forEach(d=>{
+      const el = document.getElementById(`weather-${d.id}`);
+      if(el) el.innerHTML = '<div class="weather-loading">Værvarsel ikke tilgjengelig akkurat nå</div>';
+    });
+  }
+}
+
+fetchWeather();
+
+// ===== MAP =====
+const locations = [
+  {name:'Leonardo Hotel',cat:'plan',sub:'Hotellet',lat:48.1836,lng:16.3794,icon:'🏨',color:'#C9A84C'},
+  {name:'Bitzinger Würstelstand',cat:'plan',sub:'Street food · Ons kveld',lat:48.2041,lng:16.3685,icon:'🌭',color:'#C9A84C'},
+  {name:'Naschmarkt',cat:'plan',sub:'Marked · Tor lunsj',lat:48.1990,lng:16.3620,icon:'🥐',color:'#C9A84C'},
+  {name:'Prater Amusement Park',cat:'plan',sub:'Fornøyelsespark · Tor',lat:48.2167,lng:16.3980,icon:'🎠',color:'#C9A84C'},
+  {name:'Kunsthistorisches Museum',cat:'plan',sub:'Museum · Fre formiddag',lat:48.2038,lng:16.3618,icon:'🖼️',color:'#C9A84C'},
+  {name:'Glacis Beisl',cat:'plan',sub:'Lunsj · Fre',lat:48.2031,lng:16.3571,icon:'🍽️',color:'#C9A84C'},
+  {name:'Donauturm',cat:'plan',sub:'Observation Deck · Fre',lat:48.2403,lng:16.4100,icon:'🗼',color:'#C9A84C'},
+  {name:'Wieninger am Nussberg',cat:'plan',sub:'Heuriger · Fre kveld',lat:48.2678,lng:16.3475,icon:'🍷',color:'#C9A84C'},
+  {name:'Schønbrunn + Gloriette',cat:'plan',sub:'Palass · Lør morgen',lat:48.1858,lng:16.3128,icon:'👑',color:'#C9A84C'},
+  {name:'Würstelstand am Hohen Markt',cat:'plan',sub:'Lunsj · Lør',lat:48.2112,lng:16.3723,icon:'🌭',color:'#C9A84C'},
+  {name:'Plachutta Wollzeile',cat:'plan',sub:'Middag · Lør',lat:48.2075,lng:16.3787,icon:'🥩',color:'#C9A84C'},
+  {name:'Lamée Rooftop',cat:'rooftop',sub:'Rooftop · Tor 20:30',lat:48.2104,lng:16.3740,icon:'🌃',color:'#4080C0'},
+  {name:'Aurora Rooftop Bar',cat:'rooftop',sub:'Rooftop · Lør 22:30',lat:48.1852,lng:16.3833,icon:'🌠',color:'#4080C0'},
+  {name:'Cayo Coco',cat:'rooftop',sub:'Rooftop bar',lat:48.2012,lng:16.3813,icon:'🌅',color:'#4080C0'},
+  {name:'SKY Bar im STEFFL',cat:'rooftop',sub:'Rooftop bar',lat:48.2064,lng:16.3716,icon:'🌆',color:'#4080C0'},
+  {name:'Atmosphere · Ritz-Carlton',cat:'rooftop',sub:'Rooftop · Luksus',lat:48.2024,lng:16.3765,icon:'✨',color:'#4080C0'},
+  {name:'Saint George Cocktail Bar',cat:'bar',sub:'Cocktailbar ★5.0',lat:48.2058,lng:16.3443,icon:'🍸',color:'#C04080'},
+  {name:'Needle Vinyl Bar',cat:'bar',sub:'Vinyl & cocktails ★4.8',lat:48.2121,lng:16.3689,icon:'🎵',color:'#C04080'},
+  {name:'Plus43 Speakeasy',cat:'bar',sub:'Speakeasy ★4.9',lat:48.2019,lng:16.3475,icon:'🔑',color:'#C04080'},
+  {name:'Loos American Bar',cat:'bar',sub:'Art Deco 1908',lat:48.2072,lng:16.3713,icon:'🍹',color:'#C04080'},
+  {name:'Milchfrau',cat:'bar',sub:'Cocktailbar ★4.9',lat:48.2142,lng:16.3418,icon:'🥂',color:'#C04080'},
+  {name:'Café Landtmann',cat:'kafe',sub:'Wienerkafé',lat:48.2115,lng:16.3615,icon:'☕',color:'#8B5E3C'},
+  {name:'Café Sperl',cat:'kafe',sub:'Autentisk wienerkafé',lat:48.1998,lng:16.3611,icon:'☕',color:'#8B5E3C'},
+  {name:'Gerstner K.u.K.',cat:'kafe',sub:'Hoffkonditor 1873',lat:48.2034,lng:16.3704,icon:'🍰',color:'#8B5E3C'},
+  {name:'DECENTRAL',cat:'kafe',sub:'Café Central pop-up',lat:48.2115,lng:16.3653,icon:'☕',color:'#8B5E3C'},
+  {name:'Figlmüller Bäckerstraße',cat:'spise',sub:'Schnitzel restaurant',lat:48.2093,lng:16.3756,icon:'🍽️',color:'#2E7D32'},
+  {name:'Rascal',cat:'spise',sub:'Moderne restaurant ★4.5',lat:48.2102,lng:16.3799,icon:'🥩',color:'#2E7D32'},
+];
+
+let map, mapInitialized=false, userMarker=null, isTracking=false, gpsWatchId=null;
+let allMarkers=[], userLat=null, userLng=null;
+
+function initMap(){
+  mapInitialized=true;
+  map=L.map('map',{center:[48.208,16.370],zoom:13,zoomControl:true,attributionControl:false});
+
+  // Colorful map tile (OpenStreetMap standard)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+
+  locations.forEach(loc=>{
+    const size = loc.cat==='plan' ? 30 : 24;
+    const icon=L.divIcon({
+      html:`<div style="background:${loc.color};width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${size*0.5}px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.4)">${loc.icon}</div>`,
+      iconSize:[size,size],iconAnchor:[size/2,size/2],className:''
     });
 
-    const marker = L.marker([loc.lat, loc.lng], {icon})
-      .addTo(map)
-      .bindPopup(`
-        <div class="popup-name">${loc.icon} ${loc.name}</div>
-        <div class="popup-cat">${catLabel(loc.cat)}</div>
-        <div class="popup-addr">${loc.sub}</div>
-      `, {maxWidth: 200});
+    const marker=L.marker([loc.lat,loc.lng],{icon}).addTo(map);
+    marker.bindPopup(`
+      <div class="popup-name">${loc.icon} ${loc.name}</div>
+      <div class="popup-cat">${catLabel(loc.cat)}</div>
+      <div class="popup-addr">${loc.sub}</div>
+      <a class="dir-btn" href="#" onclick="openDirections(${loc.lat},${loc.lng},'${loc.name.replace(/'/g,"\\'")}');return false;">🧭 Veibeskrivelse</a>
+    `,{maxWidth:220});
 
-    marker._locCat = loc.cat;
+    marker._locCat=loc.cat;
     allMarkers.push(marker);
   });
 
   // Legend
-  const legend = L.control({position:'bottomleft'});
-  legend.onAdd = () => {
-    const d = L.DomUtil.create('div');
-    d.style.cssText = 'background:rgba(20,9,10,.9);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:7px 10px;font-family:Playfair Display,serif;font-size:.62rem;color:#F5EDD8;backdrop-filter:blur(8px);line-height:1.8';
-    d.innerHTML = `
-      <div style="color:#C9A84C;letter-spacing:.1em;text-transform:uppercase;font-size:.58rem;margin-bottom:3px">Forklaring</div>
-      <div><span style="color:#E8C96A">●</span> Plan &amp; aktiviteter</div>
-      <div><span style="color:#90C0FF">●</span> Rooftop-barer</div>
-      <div><span style="color:#F0A0C0">●</span> Cocktailbarer</div>
-      <div><span style="color:#D4A060">●</span> Kafeer</div>
-      <div><span style="color:#90D4A0">●</span> Restauranter</div>
-      <div><span style="color:#7EC89A">📍</span> Din posisjon</div>
+  const legend=L.control({position:'bottomleft'});
+  legend.onAdd=()=>{
+    const d=L.DomUtil.create('div');
+    d.style.cssText='background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:6px;padding:7px 10px;font-family:Playfair Display,serif;font-size:.62rem;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.15);line-height:1.9';
+    d.innerHTML=`
+      <div style="font-weight:700;color:#555;letter-spacing:.08em;text-transform:uppercase;font-size:.56rem;margin-bottom:2px">Forklaring</div>
+      <div><span style="color:#C9A84C">●</span> Plan &amp; aktiviteter</div>
+      <div><span style="color:#4080C0">●</span> Rooftop-barer</div>
+      <div><span style="color:#C04080">●</span> Cocktailbarer</div>
+      <div><span style="color:#8B5E3C">●</span> Kafeer</div>
+      <div><span style="color:#2E7D32">●</span> Restauranter</div>
+      <div><span style="color:#4CAF50">●</span> Din posisjon</div>
     `;
     return d;
   };
   legend.addTo(map);
 }
 
-function catLabel(cat) {
-  const m = {plan:'Aktivitet / plan',rooftop:'Rooftop-bar',bar:'Cocktailbar',kafe:'Kafé',spise:'Restaurant'};
-  return m[cat] || cat;
+function catLabel(cat){
+  return {plan:'Aktivitet / plan',rooftop:'Rooftop-bar',bar:'Cocktailbar',kafe:'Kafé',spise:'Restaurant'}[cat]||cat;
 }
 
-function filterMap(cat, btn) {
-  activeFilter = cat;
-  document.querySelectorAll('.map-filter-btn').forEach(b => {
-    b.classList.remove('active','rt-active','bar-active');
-  });
+function filterMap(cat,btn){
+  document.querySelectorAll('.map-filter-btn').forEach(b=>b.classList.remove('active','rt-active','bar-active'));
   if(cat==='rooftop') btn.classList.add('rt-active');
   else if(cat==='bar') btn.classList.add('bar-active');
   else btn.classList.add('active');
-
-  allMarkers.forEach(m => {
-    if(cat==='alle' || m._locCat===cat) {
-      if(!map.hasLayer(m)) map.addLayer(m);
-    } else {
-      if(map.hasLayer(m)) map.removeLayer(m);
-    }
+  allMarkers.forEach(m=>{
+    if(cat==='alle'||m._locCat===cat){if(!map.hasLayer(m))map.addLayer(m);}
+    else{if(map.hasLayer(m))map.removeLayer(m);}
   });
 }
 
-// ===== GPS =====
-let gpsWatchId = null;
-
-function toggleGPS() {
-  if (!navigator.geolocation) {
-    showGpsStatus('GPS ikke tilgjengelig i denne nettleseren');
-    return;
+// ===== DIRECTIONS =====
+function openDirections(destLat, destLng, name) {
+  // If we have user location, use it as origin; otherwise just open destination
+  let url;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (userLat && userLng) {
+    if (isIOS) {
+      url = `maps://maps.apple.com/?saddr=${userLat},${userLng}&daddr=${destLat},${destLng}&dirflg=w`;
+    } else {
+      url = `https://www.google.com/maps/dir/${userLat},${userLng}/${destLat},${destLng}/@${destLat},${destLng},15z/data=!3m1!4b1!4m2!4m1!3e2`;
+    }
+  } else {
+    if (isIOS) {
+      url = `maps://maps.apple.com/?daddr=${destLat},${destLng}&dirflg=w`;
+    } else {
+      url = `https://www.google.com/maps/dir//${destLat},${destLng}/@${destLat},${destLng},15z`;
+    }
   }
+  window.open(url, '_blank');
+}
 
-  if (isTracking) {
-    // Stop tracking
-    if (gpsWatchId) navigator.geolocation.clearWatch(gpsWatchId);
-    isTracking = false;
+// ===== GPS =====
+function toggleGPS(){
+  if(!navigator.geolocation){showGpsStatus('GPS ikke tilgjengelig');return;}
+  if(isTracking){
+    if(gpsWatchId)navigator.geolocation.clearWatch(gpsWatchId);
+    isTracking=false;
     document.getElementById('gpsBtn').classList.remove('tracking');
-    document.getElementById('gpsBtn').textContent = '📍';
-    if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
+    document.getElementById('gpsBtn').textContent='📍';
+    if(userMarker){map.removeLayer(userMarker);userMarker=null;}
     hideGpsStatus();
   } else {
-    // Start tracking
-    isTracking = true;
+    isTracking=true;
     document.getElementById('gpsBtn').classList.add('tracking');
-    document.getElementById('gpsBtn').textContent = '🔵';
+    document.getElementById('gpsBtn').textContent='🔵';
     showGpsStatus('Finner posisjon…');
-
-    gpsWatchId = navigator.geolocation.watchPosition(
-      pos => {
-        const {latitude:lat, longitude:lng, accuracy} = pos.coords;
-        if (!userMarker) {
-          const pulseIcon = L.divIcon({
-            html: `<div style="position:relative;width:20px;height:20px">
-              <div style="position:absolute;inset:0;background:#7EC89A;border-radius:50%;opacity:.3;animation:pulse 1.5s infinite"></div>
-              <div style="position:absolute;top:3px;left:3px;width:14px;height:14px;background:#7EC89A;border-radius:50%;border:2px solid white;box-shadow:0 0 8px rgba(126,200,154,.8)"></div>
+    gpsWatchId=navigator.geolocation.watchPosition(
+      pos=>{
+        const{latitude:lat,longitude:lng,accuracy}=pos.coords;
+        userLat=lat; userLng=lng;
+        if(!userMarker){
+          const pulseIcon=L.divIcon({
+            html:`<div style="position:relative;width:22px;height:22px">
+              <div style="position:absolute;inset:0;background:#4CAF50;border-radius:50%;opacity:.25;animation:gpsPulse 1.5s infinite"></div>
+              <div style="position:absolute;top:4px;left:4px;width:14px;height:14px;background:#4CAF50;border-radius:50%;border:2px solid white;box-shadow:0 0 6px rgba(76,175,80,.8)"></div>
             </div>
-            <style>@keyframes pulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(2.2);opacity:0}}</style>`,
-            iconSize:[20,20], iconAnchor:[10,10], className:''
+            <style>@keyframes gpsPulse{0%,100%{transform:scale(1);opacity:.25}50%{transform:scale(2.5);opacity:0}}</style>`,
+            iconSize:[22,22],iconAnchor:[11,11],className:''
           });
-          userMarker = L.marker([lat,lng], {icon:pulseIcon, zIndexOffset:1000}).addTo(map)
-            .bindPopup('<div class="popup-name">📍 Din posisjon</div><div class="popup-addr">Nøyaktighet: ±' + Math.round(accuracy) + ' m</div>');
-          map.setView([lat,lng], 15);
+          userMarker=L.marker([lat,lng],{icon:pulseIcon,zIndexOffset:1000}).addTo(map)
+            .bindPopup(`<div class="popup-name">📍 Din posisjon</div><div class="popup-addr">Nøyaktighet: ±${Math.round(accuracy)} m</div>`);
+          map.setView([lat,lng],15);
         } else {
           userMarker.setLatLng([lat,lng]);
         }
         showGpsStatus(`Posisjon funnet · ±${Math.round(accuracy)} m`);
       },
-      err => {
-        const msgs = {1:'Tilgang nektet — sjekk nettleserinnstillinger',2:'Posisjon ikke tilgjengelig',3:'Tidsavbrudd'};
-        showGpsStatus(msgs[err.code] || 'GPS-feil');
-        isTracking = false;
+      err=>{
+        const msgs={1:'Tilgang nektet',2:'Posisjon utilgjengelig',3:'Tidsavbrudd'};
+        showGpsStatus(msgs[err.code]||'GPS-feil');
+        isTracking=false;
         document.getElementById('gpsBtn').classList.remove('tracking');
-        document.getElementById('gpsBtn').textContent = '📍';
+        document.getElementById('gpsBtn').textContent='📍';
       },
-      {enableHighAccuracy:true, maximumAge:5000, timeout:15000}
+      {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
     );
   }
 }
 
-function showGpsStatus(msg) {
-  const el = document.getElementById('gpsStatus');
-  el.textContent = msg;
-  el.classList.add('visible');
-  if(msg.includes('funnet')) setTimeout(()=>el.classList.remove('visible'), 3000);
+function showGpsStatus(msg){
+  const el=document.getElementById('gpsStatus');
+  el.textContent=msg;el.classList.add('visible');
+  if(msg.includes('funnet'))setTimeout(()=>el.classList.remove('visible'),3000);
 }
-function hideGpsStatus() {
-  document.getElementById('gpsStatus').classList.remove('visible');
-}
+function hideGpsStatus(){document.getElementById('gpsStatus').classList.remove('visible');}
 </script>
 </body>
 </html>
